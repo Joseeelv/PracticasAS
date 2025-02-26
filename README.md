@@ -23,14 +23,30 @@ Como veremos a continuación, nuestra infraestructura contendrá varias redes, l
 <!-- ## Requisitos de la infraestructura
 El cliente nos comunicó que la infraestructura se debe de componer de los siguiente:
 
-//Insertar imagen de la infra estructura
+//Insertar imagen de la infra estructura con los componentes
 
 ### Red de Desarrollo
+
+  //Poner que hace cada contenedor de la red (así en todos las redes)
 
 ### Red de Servicios
 
 ### Red de Producción
 
-### Conectividad VPN -->
+## Configuración de los Servicios Web y Bases de Datos
 
+//Contenedores usados y explicar como y porque hemos hecho de esa manera el docker file para cada contenedor que contenga un web server y una base de datos.
 
+## Configuración de las direcciones IP y VPN
+
+//Poner imagen gns3 con las subredes con las IPs para explicar la configuración.
+
+### Conectividad VPN y Configuración DHCP
+
+//Porque hemos usado un contenedor docker con debian haciendo uso de openvpn y dhcp.
+//Como se ha realizado la configuración.
+
+### Resolución DNS y NAS
+
+//Configuración del servidor DNS de la red de servicios y el NAS.
+ -->
