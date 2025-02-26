@@ -1,2 +1,3 @@
-# PracticasAS
-Repo creado para las prácticas de Administración de Servidores
+# Practicas Administración de Servidores
+
+
