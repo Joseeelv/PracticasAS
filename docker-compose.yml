@@ -4,36 +4,74 @@ services:
     container_name: dhcp
     command: bash -c "apt-get update &&
              apt-get install -y isc-dhcp-server &&
+             apt-get install -y systemctl net-tools nano dnsutils lsof nmap &&
              mkdir -p /var/lib/dhcp &&
              touch /var/lib/dhcp/dhcpd.leases &&
              cp /etc/dhcp/dhcpd.conf.bak /etc/dhcp/dhcpd.conf &&
              dhcpd -f -d"
     volumes:
-      - ./dhcpd.conf:/etc/dhcp/dhcpd.conf.bak
+      - ./conf/dhcpd.conf:/etc/dhcp/dhcpd.conf.bak
     cap_add:
       - NET_ADMIN
     restart: unless-stopped 
     networks:
       vpn_net:
         ipv4_address: 172.10.0.2
-
-  m2:
-    image: debian:latest
-    container_name: m2
-    command: tail -f /dev/null
+  
+  dev_bd:
+    image: mysql:latest
+    container_name: dev_bd
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
     networks:
-      - s2
+      dev_net:
+        ipv4_address: 172.40.0.3
 
-  m3:
-    image: debian:latest
-    container_name: m3
-    command: tail -f /dev/null
+  prod_bd:
+    image: postgres:latest
+    container_name: prod_bd
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
     networks:
-      - s2
+      prod_net:
+        ipv4_address: 172.30.0.3
+
+  dns:
+    image: debian:latest
+    container_name: dns
+    command: bash -c "apt-get update &&
+             apt-get install -y bind9 &&
+             apt-get install -y systemctl net-tools nano dnsutils lsof nmap &&
+             cp /etc/bind/named.conf.options2 /etc/bind/named.conf.options &&
+             cp /etc/bind/named.conf.local2 /etc/bind/named.conf.local &&
+             cp /etc/resolv2.conf /etc/resolv.conf &&
+             systemctl start bind9"
+    volumes:
+      - ./conf/named.conf.options:/etc/bind/named.conf.options2
+      - ./conf/named.conf.local:/etc/bind/named.conf.local2
+      - ./conf/prod.local:/etc/bind/prod.local
+      - ./conf/resolv.conf:/etc/resolv2.conf
+      - ./backup:/backup
+    networks:
+      svc_net:
+        ipv4_address: 172.20.0.2
 
 networks:
   vpn_net:
     ipam:
       config:
         - subnet: 172.10.0.0/24
-  s2:
+  svc_net:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+  prod_net:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+  dev_net:
+    ipam:
+      config:
+        - subnet: 172.40.0.0/24

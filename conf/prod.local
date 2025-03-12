@@ -1,0 +1,15 @@
+;
+; Archivo de zona para prod.local
+;
+$TTL 86400
+@   IN  SOA  ns1.prod.local. admin.prod.local. (
+        2025031101  ; Serial (cámbialo al modificar)
+        3600        ; Refresh
+        1800        ; Retry
+        604800      ; Expire
+        86400 )     ; Negative Cache TTL
+
+; Servidor DNS
+@       IN  NS  ns1.prod.local.
+ns1     IN  A   172.20.0.2
+web     IN  A   172.30.0.2
