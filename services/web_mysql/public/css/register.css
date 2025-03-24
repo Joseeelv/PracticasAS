@@ -1,0 +1,107 @@
+/*Elementos comunes*/
+*{  
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:"slnt" 0;
+}
+
+body {
+    margin: 0 auto;
+}
+
+/*Header*/
+header {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    position: fixed;
+    width: 100%;
+    height: auto;
+    top: 0%;
+}
+
+nav{
+    background-color: #52ee57;
+    width: 100%;
+    height: 5em;
+}
+
+
+#logo{
+    color: #ffffff;
+    font-size: 3em;
+    padding-top: 0.3em;
+    text-align: center;
+}
+
+.contenedor{
+    text-align: center;
+    width: 100%;
+    height: 6em;
+    margin-top: 10em;
+    box-shadow: 2px 2px 10px rgb(83, 81, 81);
+}
+
+h1{
+    text-align: center;
+    margin-top: 4em;
+    margin-bottom: 1em;
+}
+
+#formulario{
+    padding-top: 1em;
+    padding-right: 0em auto;
+    text-align: left;
+    color: black;
+    border: 2px solid black;
+    width: 40%;
+    height: auto;
+    font-size: 1.2em;
+    margin: 0 auto; /* Centra horizontalmente */
+    box-shadow: 2px 2px 10px rgb(83, 81, 81);
+    border-radius: 10px;
+}
+
+label{
+    padding-left: 0.7em;
+}
+
+button{
+    padding: 0.5em;
+    font-size: 1em;
+    width: 100%;
+    display: block; /* Convertir el botón en un elemento de bloque */
+    margin: 0 auto; /* Centrar horizontalmente */
+    background-color: #8ef891;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 0px solid black;
+    border-top: 2px solid black;
+}
+
+button:hover{
+    background-color: #52ee57;
+}
+
+input{
+    margin-top: 0.5em;
+    margin-left: 1em;
+    width: calc(100% - 2.5em);
+}
+
+a {
+    display: block;
+    padding: 10px;
+    background-color: #8ef891;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+a:hover {
+    background-color: #52ee57;
+}
