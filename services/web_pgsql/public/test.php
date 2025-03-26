@@ -1,0 +1,1 @@
+echo "<?php echo 'Hola, mundo!'; ?>" > /var/www/html/test.php

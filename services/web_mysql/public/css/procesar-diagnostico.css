@@ -1,0 +1,203 @@
+*{  
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:"slnt" 0;
+    font-size: 1em;
+}
+
+body {
+    background-color: #f0f0f0;
+    margin: 0 auto;
+}
+
+/*Header*/
+header {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    position: fixed;
+    width: 100%;
+    height: auto;
+    top: 0%;
+}
+
+nav{
+    background-color: #52ee57;
+    width: 100%;
+    height: 5em;
+}
+
+
+#logo{
+    color: #ffffff;
+    font-size: 3em;
+    padding-top: 0.3em;
+    text-align: center;
+}
+
+
+h1 {
+    text-align: center;
+    color: #52ee57;
+    font-size: 2em;
+}
+
+h2{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    display: block;
+    padding: 10px;
+    background-color: #8ef891;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+a:hover {
+    background-color: #52ee57;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 6em;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1000px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+label{
+    margin-top: 2em;
+    padding-left: 1em;
+}
+
+th {
+    background-color: #52ee57;
+    color: #fff;
+    padding: 10px;
+    font-size: 1.5em;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+
+.contenedor{
+    text-align: center;
+    width: 100%;
+    height: 6em;
+    margin-top: 10em;
+    box-shadow: 2px 2px 10px rgb(83, 81, 81);
+}
+
+
+
+
+button{
+    padding: 0.5em;
+    font-size: 1em;
+    width: 100%;
+    display: block; /* Convertir el botón en un elemento de bloque */
+    margin: 0 auto; /* Centrar horizontalmente */
+    background-color: rgb(205, 203, 203);
+    border-radius: 10px;
+}
+
+button:hover{
+    background-color: #52ee57;
+}
+
+
+#botonMedicamento{
+    padding: 0.5em;
+    font-size: 1em;
+    width: 70%;
+    display: block; /* Convertir el botón en un elemento de bloque */
+    margin: 0 auto; /* Centrar horizontalmente */
+    background-color: rgb(205, 203, 203);
+    border-radius: 10px;
+}
+
+#botonMedicamento:hover{
+    background-color: #52ee57;
+}
+
+
+
+input{
+    margin-top: 0.5em;
+    margin-left: 1em;
+    width: calc(100% - 2.5em);
+}
+
+a {
+    display: block;
+    padding: 10px;
+    background-color: #8ef891;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 250px;
+    margin-left: 250px;
+}
+
+a:hover {
+    background-color: #52ee57;
+}
+
+#formularioDiagnostico{
+    padding-right: 0em auto;
+    text-align: left;
+    color: black;
+    border: 2px solid black;
+    width: 40%;
+    height: auto;
+    font-size: 1.2em;
+    margin: 0 auto; /* Centra horizontalmente */
+    box-shadow: 2px 2px 10px rgb(83, 81, 81);
+    border-radius: 10px;
+}
+
+h3{
+    padding-left: 1em;
+    color: #52ee57;
+}
+
+#volver{
+    background-color: #52ee57;
+    color: black;
+}

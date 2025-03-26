@@ -1,0 +1,4 @@
+zone "prod.local" {
+    type master;
+    file "/etc/bind/prod.local";
+};
