@@ -1,15 +1,18 @@
 <?php
-$host = getenv('POSTGRES_HOST');
-$db = getenv('POSTGRES_DB');
-$user = getenv('POSTGRES_USER');
-$pass = getenv('POSTGRES_PASSWORD');
+$host = 'db2';
+$user = 'example';
+$password = 'example';
+$dbname = 'example';
 
-$conn = pg_connect("host=$host dbname=$db user=$user password=$pass");
+// Crear conexión
+$conn = new mysqli($host, $user, $password, $dbname);
 
-if (!$conn) {
-    die("Conexión fallida: " . pg_last_error());
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
 }
 
-echo "Conexión a PostgreSQL exitosa!";
-pg_close($conn);
+echo "Conexión MySQL exitosa!<br>";
+
+// Aquí puedes seguir con tus consultas MySQL usando $conn->query() o prepared statements
 ?>

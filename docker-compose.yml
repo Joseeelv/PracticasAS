@@ -1,4 +1,18 @@
 services:
+  debian_rooter:
+    image: debian:latest
+    container_name: debian_rooter
+    command: bash -c "apt-get update &&
+                      apt-get install -y iputils-ping net-tools dnsutils nano &&
+                      tail -f /dev/null"
+    networks:
+      svc_net:
+        ipv4_address: 172.20.0.10
+      prod_net:
+        ipv4_address: 172.30.0.10
+      dev_net:
+        ipv4_address: 172.40.0.10
+
   # PHP-FPM para PostgreSQL
   web_pgsql_php:
     build: ./services/web_pgsql
@@ -6,7 +20,10 @@ services:
     volumes:
       - ./services/web_pgsql/public:/var/www/html
       - ./services/web_pgsql/php-fpm.conf:/usr/local/etc/php-fpm.conf
-    networks: prod_net
+    networks: 
+      prod_net:
+        ipv4_address: 172.30.0.2
+  
   # Servidor Nginx para Drupal
   nginx:
     image: nginx:latest
@@ -18,7 +35,9 @@ services:
       - ./services/web_pgsql/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "8080:80"
-    networks: prod_net
+    networks:
+      prod_net:
+        ipv4_address: 172.30.0.4
 
   # Base de datos PostgreSQL
   db:
@@ -29,9 +48,13 @@ services:
       POSTGRES_DB: example
       POSTGRES_USER: example
       POSTGRES_PASSWORD: example
+    volumes:
+      - ./services/web_pgsql/sql:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
-    networks: prod_net
+    networks: 
+      prod_net:
+        ipv4_address: 172.30.0.3
 
   # Web con Apache y MySQL
   web_mysql:
@@ -48,7 +71,9 @@ services:
       MYSQL_DATABASE: example
     volumes:
       - ./services/web_mysql/public:/var/www/html
-    networks: dev_net
+    networks: 
+      dev_net:
+        ipv4_address: 172.40.0.2
 
   # Base de datos MySQL
   db2:
@@ -60,10 +85,13 @@ services:
       MYSQL_USER: example
       MYSQL_PASSWORD: example
       MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ./services/web_mysql/sql:/docker-entrypoint-initdb.d
     ports:
       - "3307:3306"
-    networks: dev_net
-
+    networks:
+      dev_net:
+        ipv4_address: 172.40.0.3
 
   dns:
     image: debian:latest
@@ -80,30 +108,20 @@ services:
       - ./conf/named.conf.local:/etc/bind/named.conf.local2
       - ./conf/prod.local:/etc/bind/prod.local
       - ./conf/resolv.conf:/etc/resolv2.conf
-      - ./backup:/backup
     networks:
       svc_net:
         ipv4_address: 172.20.0.2
 
 networks:
   svc_net:
-    driver: macvlan
-    driver_opts:
-      parent: ens19
     ipam:
       config:
         - subnet: 172.20.0.0/24
   prod_net:
-    driver: macvlan
-    driver_opts:
-      parent: ens20
     ipam:
       config:
         - subnet: 172.30.0.0/24
   dev_net:
-    driver: macvlan
-    driver_opts:
-      parent: ens21
     ipam:
       config:
         - subnet: 172.40.0.0/24

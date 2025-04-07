@@ -1,11 +1,21 @@
-options{
+options {
     directory "/var/cache/bind";
-    allow-query{ 172.20.0.0/24; 172.30.0.0/24; 172.40.0.0/24; localhost;};
-    recursion yes;
-    dnssec-validation auto;
-    forwarders{
-        8.8.8.8;
-        8.8.4.4;
+
+    // Escuchar en todas las interfaces disponibles
+    listen-on { any; };
+
+    // Permitir solo consultas locales para pruebas
+    allow-query { any; };
+
+    // Configuración de reenvío
+    forwarders {
+        8.8.8.8;  // DNS público de Google
+        8.8.4.4;  // DNS público de Google
     };
-    listen-on { 172.20.0.2;};
+
+    // Habilitar las respuestas para consultas recursivas
+    recursion yes;
+
+    // Activar las zonas de reenvío (forward zones) para mejorar el rendimiento
+    forward only;
 };
