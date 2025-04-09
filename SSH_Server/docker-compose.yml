@@ -1,0 +1,21 @@
+services:
+  ssh-without-userpass:
+    build:
+      context: ./Dockerfiles/NoUserPass
+      dockerfile: Dockerfile
+    container_name: ssh-without-userpass
+    ports:
+      - "2222:22"  # puerto externo:puerto del contenedor
+    restart: unless-stopped
+
+  ssh-server-2fa:
+    build:
+      context: ./Dockerfiles/2fa-server
+      dockerfile: Dockerfile
+    container_name: ssh_server_2fa
+    volumes:
+      - ./2fa-config:/home/user
+    ports:
+      - "2223:22"
+    tty: true
+    restart: unless-stopped
