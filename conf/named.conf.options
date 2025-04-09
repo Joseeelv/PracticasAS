@@ -1,0 +1,21 @@
+options {
+    directory "/var/cache/bind";
+
+    // Escuchar en todas las interfaces disponibles
+    listen-on { any; };
+
+    // Permitir solo consultas locales para pruebas
+    allow-query { any; };
+
+    // Configuración de reenvío
+    forwarders {
+        8.8.8.8;  // DNS público de Google
+        8.8.4.4;  // DNS público de Google
+    };
+
+    // Habilitar las respuestas para consultas recursivas
+    recursion yes;
+
+    // Activar las zonas de reenvío (forward zones) para mejorar el rendimiento
+    forward only;
+};

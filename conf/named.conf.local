@@ -1,0 +1,9 @@
+zone "prod.local" {
+    type master;
+    file "/etc/bind/prod.local";
+};
+
+zone "dev.local" {
+    type master;
+    file "/etc/bind/dev.local";
+};
