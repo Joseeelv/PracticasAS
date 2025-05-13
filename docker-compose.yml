@@ -24,6 +24,15 @@ services:
       dev_net:
         ipv4_address: 172.40.0.2
 
+  samba:
+    build:
+      context: .
+      dockerfile: Dockerfile.samba
+    container_name: samba
+    networks:
+      dev_net:
+        ipv4_address: 172.40.0.3
+
   prod:
     build:
       context: .

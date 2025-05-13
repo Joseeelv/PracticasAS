@@ -1,7 +1,7 @@
 FROM debian:latest
 
 RUN apt update && \
-    apt install -y iputils-ping net-tools dnsutils nano
+    apt install -y iputils-ping net-tools dnsutils nano ftp
 
 # Crear usuario con contraseña
 RUN useradd -m user && \

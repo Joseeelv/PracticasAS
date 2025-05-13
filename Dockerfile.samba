@@ -1,0 +1,12 @@
+FROM debian:latest
+
+# Instalar Samba
+RUN apt update && apt install -y samba samba-common-bin sudo
+
+# Copiar configuración de Samba y script de arranque
+COPY ./Samba/smb.conf /etc/samba/smb.conf
+COPY ./Samba/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Ejecutar entrypoint
+CMD ["/entrypoint.sh"]
