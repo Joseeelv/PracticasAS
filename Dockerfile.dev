@@ -1,8 +1,8 @@
 FROM debian:latest
 
-# Instalar vsftpd
+# Instalar vsftpd y otros paquetes necesarios
 RUN apt-get update && \
-    apt-get install -y vsftpd && \
+    apt-get install -y vsftpd ftp openssh-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Crear directorios necesarios
@@ -12,30 +12,15 @@ RUN mkdir -p /ftp/publico && \
     mkdir -p /var/run/vsftpd/empty && \
     chmod 755 /var/run/vsftpd/empty
 
-# Crear un archivo de ejemplo
-RUN echo "Bienvenido al servidor FTP" > /ftp/publico/README.txt
+# Crear archivo de ejemplo
+RUN echo "Bienvenido al servidor FTP de Desarrollo" > /ftp/publico/README.txt
 
-# Crear archivo de configuración de vsftpd
-RUN echo "\
-listen=YES\n\
-anonymous_enable=YES\n\
-local_enable=NO\n\
-write_enable=NO\n\
-anon_root=/ftp\n\
-anon_upload_enable=NO\n\
-anon_mkdir_write_enable=NO\n\
-anon_other_write_enable=NO\n\
-no_anon_password=YES\n\
-hide_ids=YES\n\
-dirmessage_enable=YES\n\
-use_localtime=YES\n\
-xferlog_enable=YES\n\
-ftpd_banner=Servidor FTP de Documentación\n\
-secure_chroot_dir=/var/run/vsftpd/empty\n\
-" > /etc/vsftpd.conf
 
-# Exponer el puerto FTP (21)
-EXPOSE 21
+# Configuración de vsftpd
+COPY vsftpd.conf /etc/vsftpd.conf
+RUN chmod 644 /etc/vsftpd.conf
+# Exponer puertos para FTP y pasivos
+EXPOSE 21 40000-40100
 
-# Comando por defecto para lanzar el servicio
-CMD ["/usr/sbin/vsftpd", "/etc/vsftpd.conf"]
+# Comando para iniciar el servidor FTP
+CMD ["vsftpd", "/etc/vsftpd.conf"]

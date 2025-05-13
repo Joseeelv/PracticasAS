@@ -1,16 +1,10 @@
 FROM debian:latest
 
-# Instalar OpenSSH
-RUN apt-get update && apt-get install -y openssh-server
+# Actualizar y instalar paquetes necesarios
+RUN apt update && \
+    apt install -y iputils-ping net-tools dnsutils nano ftp ssh
 
-# Crear un directorio para el servicio SSH
-RUN mkdir /var/run/sshd
-
-# Agregar un usuario para SSH (puedes cambiar los valores si es necesario)
-RUN useradd -m ssh && echo "ssh:ssh" | chpasswd
-
-# Exponer el puerto 22 para SSH
-EXPOSE 22
-
-# Iniciar SSH
-CMD ["/usr/sbin/sshd", "-D"]
+# Crear usuario con contraseña
+RUN useradd -m user && \
+    echo "user:user" | chpasswd && \
+    echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers

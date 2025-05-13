@@ -1,37 +1,35 @@
+version: "3.7"
+
 services:
   rooter:
     build:
       context: .
       dockerfile: Dockerfile.rooter
     container_name: rooter
-    command: bash -c "tail -f /dev/null"
+    command: bash -c "/etc/init.d/tunnel.sh && tail -f /dev/null"
     networks:
-      svc_net:
-        ipv4_address: 172.20.0.10
       prod_net:
         ipv4_address: 172.30.0.10
       dev_net:
         ipv4_address: 172.40.0.10
+    privileged: true
+    ports:
+      - "2121:2121"  # Acceso FTP seguro
+    volumes:
+      - ./scripts/tunnel.sh:/etc/init.d/tunnel.sh
+    restart: always
 
   dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
     container_name: dev
-    ports:
-      - "21:21"
     networks:
       dev_net:
         ipv4_address: 172.40.0.2
-
-  samba:
-    build:
-      context: .
-      dockerfile: Dockerfile.samba
-    container_name: samba
-    networks:
-      dev_net:
-        ipv4_address: 172.40.0.3
+    expose:
+      - "21"  # Puerto FTP
+      - "40000-40100"  # Puertos pasivos FTP
 
   prod:
     build:
@@ -42,6 +40,7 @@ services:
     networks:
       prod_net:
         ipv4_address: 172.30.0.2
+    restart: always
 
   svc:
     build:
@@ -52,17 +51,22 @@ services:
     networks:
       svc_net:
         ipv4_address: 172.20.0.2
+    restart: always
 
 networks:
   svc_net:
     ipam:
       config:
         - subnet: 172.20.0.0/24
+
   prod_net:
     ipam:
       config:
         - subnet: 172.30.0.0/24
+    driver: bridge
+
   dev_net:
     ipam:
       config:
         - subnet: 172.40.0.0/24
+    driver: bridge

@@ -1,9 +1,20 @@
 FROM debian:latest
 
-RUN apt update && \
-    apt install -y iputils-ping net-tools dnsutils nano ftp
+# Instalar OpenSSH y herramientas necesarias
+RUN apt-get update && \
+    apt-get install -y openssh-client iputils-ping net-tools netcat-openbsd
 
 # Crear usuario con contraseña
 RUN useradd -m user && \
     echo "user:user" | chpasswd && \
     echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Crear el directorio y copiar el script de túnel
+RUN mkdir -p /etc/init.d
+COPY scripts/tunnel.sh /etc/init.d/tunnel.sh
+
+# Cambiar los permisos del script para hacerlo ejecutable
+RUN chmod +x /etc/init.d/tunnel.sh
+
+# Iniciar el script y mantener el contenedor activo
+CMD ["/etc/init.d/tunnel.sh"]
