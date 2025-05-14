@@ -1,0 +1,38 @@
+FROM debian:latest
+
+RUN apt update && \
+    apt install -y iputils-ping net-tools dnsutils nano apache2 && \
+    apt clean
+
+RUN  echo 'documentos:$apr1$5mREOBPp$LpNQzPytiKf9QWwUqKhzF.'> /etc/apache2/.htpasswd
+
+# Agregar configuración personalizada al sitio por defecto
+RUN echo '<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html/\n\
+    # Alias para la carpeta compartida\n\
+    Alias /documentos/ /var/www/publico/\n\
+    <Directory /var/www/publico>\n\
+        AuthType Basic\n\
+        AuthName "Documentación protegida"\n\
+        AuthUserFile /etc/apache2/.htpasswd\n\
+        Require valid-user\n\
+    </Directory>\n\
+    <Directory /var/www/html>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride None\n\
+        Require all granted\n\
+    </Directory>\n\
+    <FilesMatch "\\.php$">\n\
+        ForceType text/html\n\
+        RedirectMatch 403 \.php$\n\
+    </FilesMatch>\n\
+    ErrorDocument 403 /error-php.html\n\
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+
+RUN a2enmod auth_basic
+
+# Exponer el puerto HTTP
+EXPOSE 80
+
+# Iniciar Apache en primer plano
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
