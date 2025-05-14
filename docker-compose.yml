@@ -20,7 +20,6 @@ services:
     container_name: dev
     ports:
       - "21:21"
-    command: bash -c "tail -f /dev/null"
     networks:
       dev_net:
         ipv4_address: 172.40.0.2
@@ -30,6 +29,9 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     container_name: prod
+    volumes:
+      - ./html:/var/www/html
+      - ./publico:/var/www/publico
     ports:
       - "80:80"
     networks:
